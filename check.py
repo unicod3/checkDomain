@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-    A simple domain checker written with python with pygtk
+    A simple domain checker written at python with pygtk
     Check Domain Information
     author = 'unicod3'
 """
