@@ -17,7 +17,7 @@ except ImportError:
     parent = None
     md = gtk.MessageDialog(parent,
     gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO,
-    gtk.BUTTONS_CLOSE, "Some libraries are missing! You can install by \n pip install gtk,pythonwhois")
+    gtk.BUTTONS_CLOSE, "Some libraries are missing! You can install by \n pip install pythonwhois")
     md.run()
     md.destroy()
     sys.exit()
