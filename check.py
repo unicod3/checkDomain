@@ -29,7 +29,11 @@ class checkDomain:
             lblResult.set_text("Checking...")
             domainArr = domainName.split('.')
             if domainArr[0] == "www" or  domainArr[0] == "http://www":
-               domainName = domainArr[1]+"."+domainArr[2]
+                domainName = ""
+                for (i, item) in enumerate(domainArr):
+                    if(i == 0):continue;
+                    if(i > 1): domainName += "."
+                    domainName += domainArr[i]
 
             w = pythonwhois.get_whois(domainName)
             result = "Domain : %s \n" % domainName
