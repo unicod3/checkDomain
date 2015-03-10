@@ -9,15 +9,30 @@ __author__ = 'unicod3'
 import pygtk
 pygtk.require('2.0')
 import gtk
-import pythonwhois
+import sys
+try :
+    import pythonwhois
+except ImportError:
+    print("Some libraries are missing! You can install by \n")
+    parent = None
+    md = gtk.MessageDialog(parent,
+    gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO,
+    gtk.BUTTONS_CLOSE, "Some libraries are missing! You can install by \n pip install gtk,pythonwhois")
+    md.run()
+    md.destroy()
+    sys.exit()
 
 class checkDomain:
     def enter_callback(self, widget, entry, lblResult):
         try:
-            entry_text = entry.get_text()
+            domainName = entry.get_text()
             lblResult.set_text("Checking...")
-            w = pythonwhois.get_whois(entry_text)
-            result = "Domain : %s \n" % entry_text
+            domainArr = domainName.split('.')
+            if domainArr[0] == "www" or  domainArr[0] == "http://www":
+               domainName = domainArr[1]+"."+domainArr[2]
+
+            w = pythonwhois.get_whois(domainName)
+            result = "Domain : %s \n" % domainName
             if w["contacts"]["registrant"] is None:
                 result += "\nDomain Is Available"
             else:
@@ -25,7 +40,9 @@ class checkDomain:
                 result += "Created at : %s \n" % w["creation_date"][0].strftime("%d/%m/%Y")
                 result += "Expired at : %s \n" % w["expiration_date"][0].strftime("%d/%m/%Y")
         except pythonwhois.shared.WhoisException:
-            lblResult.set_text("Please check the domain!")
+            lblResult.set_text("An Error Occurred!: Please check the domain!")
+        except :
+            lblResult.set_text("An Error Occurred!: Please check the domain!")
         else:
             lblResult.set_text(result)
 
